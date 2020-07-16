@@ -6,6 +6,9 @@ const Weather = require('../models/weather')
 router.get('/', (req, res, next) => {
     Weather.getWeather((err, weatherStr) => {
         if (err) return next(err);
+
+        //console.log(JSON.parse(weatherStr).list.length);
+
         res.send(weatherStr);
     });    
 });
