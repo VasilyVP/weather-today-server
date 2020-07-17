@@ -5,8 +5,11 @@ router.post('/', async (req, res, next) => {
     const user = req.body;
     try {
         const msg = await User.createNewUser(user);
+        
+        /* need add jwt */
+
         res.json({
-            code: 200,
+            code: 201,
             msg: msg
         });
     } catch (err) {

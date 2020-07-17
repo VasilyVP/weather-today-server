@@ -21,6 +21,17 @@ class User {
 
         return `${r.insertedCount} users added`;
     }
+
+    static async getUserDataByEmail(email) {
+        const docs =  await mdb.collection('users').find({ email: email }).toArray();
+        assert.equal(1, docs.length);
+
+        return docs[0];
+    }
+
+    static async checkPassword(password, hash) {
+        return await bcrypt.compare(password, hash);
+    }
 }
 
 module.exports = User;
