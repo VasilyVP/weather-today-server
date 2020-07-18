@@ -5,11 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 //const cors = require('cors');
 
+const authentication = require('./middleware/authentication').authentication;
+
 var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 const weatherRouter = require('./routes/weather');
 const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
+const signOutRouter = require('./routes/signOut');
 
 var app = express();
 
@@ -28,11 +31,13 @@ app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(authentication);
 
 app.use('/', indexRouter);
 app.use('/api/weather', weatherRouter);
 app.use('/api/signup', signUpRouter);
 app.use('/api/signin', signInRouter);
+app.use('/api/signout', signOutRouter);
 //app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

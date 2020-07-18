@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const Auth = require('../middleware/authentication');
 
 router.post('/', async (req, res, next) => {
     const user = req.body;
@@ -12,8 +13,10 @@ router.post('/', async (req, res, next) => {
 
         const result = await User.checkPassword(user.password, userData.password);        
         if (result) {
-
-            /* need add jwt */
+            await Auth.setJWTCookie({
+                email: userData.email,
+                firstName: userData.firstName
+            }, res);
 
             res.json({
                 code: 200,

@@ -1,12 +1,16 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const Auth = require('../middleware/authentication');
 
 router.post('/', async (req, res, next) => {
     const user = req.body;
     try {
         const msg = await User.createNewUser(user);
         
-        /* need add jwt */
+        await Auth.setJWTCookie({
+            email: user.email,
+            firstName: user.firstName
+        }, res);
 
         res.json({
             code: 201,
