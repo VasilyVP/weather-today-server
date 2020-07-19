@@ -1,17 +1,23 @@
 const router = require('express').Router();
+const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Auth = require('../middleware/authentication');
 
-router.post('/', async (req, res, next) => {
-    const user = req.body;
+router.post('/', [
+    body('email').isEmail(),
+    body('password').isLength({ max: 20 })
+], async (req, res, next) => {
     try {
+        if (!validationResult(req).isEmpty()) throw new Error();
+
+        const user = req.body;
         const userData = await User.getUserDataByEmail(user.email);
         if (!userData) res.json({
             code: 401,
             msg: 'User not found'
         });
 
-        const result = await User.checkPassword(user.password, userData.password);        
+        const result = await User.checkPassword(user.password, userData.password);
         if (result) {
             await Auth.setJWTCookie({
                 email: userData.email,

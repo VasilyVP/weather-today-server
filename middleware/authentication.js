@@ -1,4 +1,5 @@
 const JWT = require('jsonwebtoken');
+const validator = require('validator');
 
 const secret = 'secret key'; // just 'simple' string for this simple app
 
@@ -6,7 +7,7 @@ class Authentication {
     static async getJWT(user) {
         return new Promise((resolve, reject) => {
             JWT.sign(user, secret, {
-                //expiresIn: '1h'
+                expiresIn: '12h'
             }, (err, token) => {
                 if (err) reject(err);
                 resolve(token);
@@ -17,6 +18,7 @@ class Authentication {
     static setTokenCookie(res, token) {
         res.cookie('jwt', token, {
             httpOnly: true,
+            maxAge: 12*60*60*1000 // 12 hours
         })
     }
 
@@ -36,7 +38,8 @@ class Authentication {
 
     static async authentication(req, res, next) {
         const jwt = req.cookies.jwt;
-        if (jwt) {
+        
+        if (jwt && validator.isJWT(jwt)) {
             const user = await Authentication.verifyJWT(jwt);
             req.user = user;
         }
