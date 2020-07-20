@@ -32,6 +32,13 @@ class User {
     static async checkPassword(password, hash) {
         return await bcrypt.compare(password, hash);
     }
+
+    static async deleteUser(email) {
+        const r = await mdb.collection('users').deleteOne({ email: email });
+        assert.equal(1, r.deletedCount);
+
+        return r.deletedCount;
+    }
 }
 
 module.exports = User;

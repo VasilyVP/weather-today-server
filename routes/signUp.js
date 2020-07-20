@@ -3,6 +3,8 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Auth = require('../middleware/authentication');
 
+let responseObj;
+
 router.post('/', [
     body('firstName').isLength({ max: 20 }),
     body('lastName').isLength({ max: 20 }),
@@ -20,10 +22,10 @@ router.post('/', [
             firstName: user.firstName
         }, res);
 
-        res.json({
+        responseObj = {
             code: 201,
             msg: msg
-        });
+        };
     } catch (err) {
         if (err.code === 11000) {
             responseObj = {
@@ -36,6 +38,7 @@ router.post('/', [
                 msg: 'Internal server error'
             }
         }
+    } finally {
         res.json(responseObj);
     }
 });

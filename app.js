@@ -13,6 +13,7 @@ const weatherRouter = require('./routes/weather');
 const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
 const signOutRouter = require('./routes/signOut');
+const deleteAccountRouter = require('./routes/deleteAccount');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use('/api/weather', weatherRouter);
 app.use('/api/signup', signUpRouter);
 app.use('/api/signin', signInRouter);
 app.use('/api/signout', signOutRouter);
+app.use('/api/deleteaccount', deleteAccountRouter);
 //app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
