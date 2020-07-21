@@ -11,6 +11,9 @@ router.post('/', [
         if (!validationResult(req).isEmpty()) throw new Error();
 
         const user = req.body;
+
+        console.log(user);
+
         const userData = await User.getUserDataByEmail(user.email);
         if (!userData) res.json({
             code: 401,
@@ -42,7 +45,7 @@ router.post('/', [
         if (err.code === 'ERR_ASSERTION') {
             res.json({
                 code: 401,
-                msg: 'No user ' + user.email
+                msg: 'No user ' + req.body.email
             })
         } else {
             res.json({

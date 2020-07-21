@@ -1,7 +1,8 @@
 const JWT = require('jsonwebtoken');
 const validator = require('validator');
+const config = require('../data/config.json');
 
-const secret = 'secret key'; // just 'simple' string for this simple app
+const secret = config.SECRET_STR;
 
 class Authentication {
     static async getJWT(user) {
@@ -18,6 +19,7 @@ class Authentication {
     static setTokenCookie(res, token) {
         res.cookie('jwt', token, {
             httpOnly: true,
+            sameSite: true,
             maxAge: 12*60*60*1000 // 12 hours
         })
     }

@@ -1,7 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
+const config = require('../data/config.json');
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'weather_today';
+const url = config.MDB_URL;
+const dbName = config.DB_NAME;
 
 const options = {
     useUnifiedTopology: true

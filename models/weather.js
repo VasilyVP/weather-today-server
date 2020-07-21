@@ -1,7 +1,7 @@
-//const fs = require('fs');
 const unirest = require('unirest');
 const GeoAPI = require('ip-geolocation-api-javascript-sdk');
 const GeolocationParams = require('ip-geolocation-api-javascript-sdk/GeolocationParams.js');
+const config = require('../data/config.json');
 
 class Weather {
     static async getWeather(ip) {
@@ -9,7 +9,7 @@ class Weather {
         const { latitude, longitude, city, country_code2 } = result;
 
         return new Promise((resolve, reject) => {
-            unirest.get("https://community-open-weather-map.p.rapidapi.com/forecast")
+            unirest.get(config.WEATHER_API)
                 .query({
                     "units": "metric",
                      //"lat": latitude,
@@ -17,8 +17,8 @@ class Weather {
                     "q": `${city},${country_code2}`
                 })
                 .headers({
-                    "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-                    "x-rapidapi-key": "e65f82894emshe65a07dd4868420p1fb4d1jsn49ad1fd7ccf3",
+                    "x-rapidapi-host": config.RAPID_API_HOST,
+                    "x-rapidapi-key": config.RAPID_API_KEY,
                     "useQueryString": true
                 })
                 .then(res => {
@@ -32,9 +32,9 @@ class Weather {
 
     static async getCoordsByIP(ip) {
         return new Promise((resolve, reject) => {
-            const ipApi = new GeoAPI('1f073ba52a6b47e48206ca52db993d8b');
+            const ipApi = new GeoAPI(config.GEO_API_KEY);
 
-            if (process.env.NODE_ENV !== 'production') ip = '46.39.55.218';
+            if (process.env.NODE_ENV !== 'production') ip = config.TEST_IP;
 
             const params = new GeolocationParams();
             params.setIPAddress(ip);
