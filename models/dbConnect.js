@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const config = require('../data/config.json');
+const config = require('../data/private/config.json');
 
 const url = config.MDB_URL;
 const dbName = config.DB_NAME;
