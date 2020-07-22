@@ -12,8 +12,6 @@ router.post('/', [
 
         const user = req.body;
 
-        console.log(user);
-
         const userData = await User.getUserDataByEmail(user.email);
         if (!userData) res.json({
             code: 401,

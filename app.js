@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 const authentication = require('./middleware/authentication').authentication;
 
-var indexRouter = require('./routes/index');
+//var indexRouter = require('./routes/index');
 const weatherRouter = require('./routes/weather');
 const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
@@ -26,13 +26,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(authentication);
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 app.use('/api/weather', weatherRouter);
 app.use('/api/signup', signUpRouter);
 app.use('/api/signin', signInRouter);
 app.use('/api/signout', signOutRouter);
 app.use('/api/deleteaccount', deleteAccountRouter);
 
+// redirect to / for any other requests
+app.use((req, res, next) => {
+  res.redirect('/');
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
