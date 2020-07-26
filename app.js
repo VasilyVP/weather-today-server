@@ -8,7 +8,6 @@ const cfg = require('./data/private/config.json');
 
 const authentication = require('./middleware/authentication').authentication;
 
-//var indexRouter = require('./routes/index');
 const weatherRouter = require('./routes/weather');
 const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
@@ -20,6 +19,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.enable('trust proxy');
 
 // accessLogging setup
 app.use(logger('dev'));
@@ -30,7 +30,6 @@ app.use(logger('combined', {
 }));
 
 app.use(express.json());
-//app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(authentication);
@@ -55,10 +54,6 @@ try {
   console.error(err.message);
 }
 app.use(function (err, req, res, next) {
-
-  console.log('err handler');
-  console.log(err.message);
-
   if (errorsStream) errorsStream.write(new Date().toUTCString() + ` ${err.message}\n Error stack:\n ${err.stack}\n`);
 
   res.status(500).json({

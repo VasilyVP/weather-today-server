@@ -32,16 +32,12 @@ class Weather {
 
     static async getCoordsByIP(ip) {
         return new Promise((resolve, reject) => {
-            
-            //reject('Can\'t receive geo data by IP');
-
             const ipApi = new GeoAPI(config.GEO_API_KEY);
 
             if (process.env.NODE_ENV !== 'production') ip = config.TEST_IP;
 
             const params = new GeolocationParams();
             params.setIPAddress(ip);
-
             ipApi.getGeolocation(geoObj => {
                 if (geoObj.latitude) resolve(geoObj);
                 else reject(new Error('Can\'t receive geo data by IP'));
