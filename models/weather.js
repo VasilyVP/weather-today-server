@@ -12,8 +12,8 @@ class Weather {
             unirest.get(config.WEATHER_API)
                 .query({
                     "units": "metric",
-                     //"lat": latitude,
-                     //"lon": longitude,
+                    //"lat": latitude,
+                    //"lon": longitude,
                     "q": `${city},${country_code2}`
                 })
                 .headers({
@@ -32,6 +32,9 @@ class Weather {
 
     static async getCoordsByIP(ip) {
         return new Promise((resolve, reject) => {
+            
+            //reject('Can\'t receive geo data by IP');
+
             const ipApi = new GeoAPI(config.GEO_API_KEY);
 
             if (process.env.NODE_ENV !== 'production') ip = config.TEST_IP;
@@ -39,11 +42,10 @@ class Weather {
             const params = new GeolocationParams();
             params.setIPAddress(ip);
 
-            ipApi.getGeolocation(
-                geoObj => {
-                    if (geoObj.latitude) resolve(geoObj);
-                    else reject('Can\'t receive geo data by IP');
-                }, params
+            ipApi.getGeolocation(geoObj => {
+                if (geoObj.latitude) resolve(geoObj);
+                else reject(new Error('Can\'t receive geo data by IP'));
+            }, params
             );
         });
     }

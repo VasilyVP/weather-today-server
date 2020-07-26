@@ -8,10 +8,11 @@ router.get('/', async (req, res, next) => {
         const weatherObj = await Weather.getWeather(req.ip);
         res.send(weatherObj);
     } catch (err) {
-        res.json({
-            code: 500,
-            msg: 'Internal server error'
-        });
+
+        console.log('router:');
+        console.log(err);
+
+        next(err);
     }
 });
 

@@ -1,8 +1,10 @@
-var createError = require('http-errors');
+//var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const fs = require('fs');
+const cfg = require('./data/private/config.json');
 
 const authentication = require('./middleware/authentication').authentication;
 
@@ -19,7 +21,14 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// accessLogging setup
 app.use(logger('dev'));
+const morganLogWriteStream = fs.createWriteStream(path.join(__dirname, cfg.accessesWithErrorsLog), { flags: 'a' });
+app.use(logger('combined', {
+  skip: (req, res) => res.statusCode < 400,
+  stream: morganLogWriteStream
+}));
+
 app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -37,20 +46,25 @@ app.use('/api/deleteaccount', deleteAccountRouter);
 app.use((req, res, next) => {
   res.redirect('/');
 });
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// handle and log errors
+let errorsStream;
+try {
+  errorsStream = fs.createWriteStream(path.join(__dirname, cfg.errorsLog), { flags: 'a' })  
+} catch (err) {
+  console.error(err.message);
+}
+app.use(function (err, req, res, next) {
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  console.log('err handler');
+  console.log(err.message);
+
+  if (errorsStream) errorsStream.write(new Date().toUTCString() + ` ${err.message}\n Error stack:\n ${err.stack}\n`);
+
+  res.status(500).json({
+    code: 500,
+    msg: 'Internal server error'
+  });
 });
 
 module.exports = app;

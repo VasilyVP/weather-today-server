@@ -8,7 +8,7 @@ router.post('/', [
     body('password').isLength({ max: 20 })
 ], async (req, res, next) => {
     try {
-        if (!validationResult(req).isEmpty()) throw new Error();
+        if (!validationResult(req).isEmpty()) throw new Error('Invalid request data');
 
         const user = req.body;
 
@@ -46,10 +46,7 @@ router.post('/', [
                 msg: 'No user ' + req.body.email
             })
         } else {
-            res.json({
-                code: 500,
-                msg: 'Internal server error'
-            });
+            next(err);
         }
     }
 });

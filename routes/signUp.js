@@ -26,20 +26,17 @@ router.post('/', [
             code: 201,
             msg: msg
         };
+        res.json(responseObj);
     } catch (err) {
         if (err.code === 11000) {
             responseObj = {
                 code: 11000,
                 msg: `Email: ${err.keyValue.email} is already exist`
             }
+            res.json(responseObj);
         } else {
-            responseObj = {
-                code: 500,
-                msg: 'Internal server error'
-            }
+            next(err);
         }
-    } finally {
-        res.json(responseObj);
     }
 });
 
