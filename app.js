@@ -13,7 +13,6 @@ const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
 const signOutRouter = require('./routes/signOut');
 const deleteAccountRouter = require('./routes/deleteAccount');
-const oauthRouter = require('./routes/oauthRouter');
 
 var app = express();
 
@@ -35,9 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(authentication);
 
-//app.use('/', indexRouter);
 app.use('/oauthsignin', (req, res, next) => {
-  console.log('here: /oauthsignin')
   res.render('oauthsignin.ejs');
 });
 app.use('/api/weather', weatherRouter);
@@ -54,7 +51,7 @@ app.use((req, res, next) => {
 // handle and log errors
 let errorsStream;
 try {
-  errorsStream = fs.createWriteStream(path.join(__dirname, cfg.errorsLog), { flags: 'a' })  
+  errorsStream = fs.createWriteStream(path.join(__dirname, cfg.errorsLog), { flags: 'a' })
 } catch (err) {
   console.error(err.message);
 }
