@@ -13,6 +13,7 @@ const signUpRouter = require('./routes/signUp');
 const signInRouter = require('./routes/signIn');
 const signOutRouter = require('./routes/signOut');
 const deleteAccountRouter = require('./routes/deleteAccount');
+const oauthRouter = require('./routes/oauthRouter');
 
 var app = express();
 
@@ -35,6 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(authentication);
 
 //app.use('/', indexRouter);
+app.use('/oauthsignin', (req, res, next) => {
+  console.log('here: /oauthsignin')
+  res.render('oauthsignin.ejs');
+});
 app.use('/api/weather', weatherRouter);
 app.use('/api/signup', signUpRouter);
 app.use('/api/signin', signInRouter);
