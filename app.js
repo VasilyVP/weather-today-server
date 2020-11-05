@@ -19,9 +19,11 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// nginx proxy required
 app.enable('trust proxy');
 
-// accessLogging setup
+// development and accessLogging setup
 app.use(logger('dev'));
 const morganLogWriteStream = fs.createWriteStream(path.join(__dirname, cfg.accessesWithErrorsLog), { flags: 'a' });
 app.use(logger('combined', {
