@@ -13,14 +13,12 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-validator": "^6.6.1",
-    "express-winston": "^4.0.5",
     "http-errors": "^1.8.0",
     "ip-geolocation-api-javascript-sdk": "^1.0.7",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
     "morgan": "~1.9.1",
     "unirest": "^0.6.0",
-    "validator": "^13.1.17",
-    "winston": "^3.3.3"
+    "validator": "^13.1.17"
   }
 }
