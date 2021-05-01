@@ -1,4 +1,5 @@
-const env = require('dotenv').config().parsed;
+const envPath = process.env.cwd && process.env.cwd + '/.env';
+const env = require('dotenv').config({ path: envPath }).parsed;
 
 
 const logs = {
