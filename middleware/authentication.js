@@ -1,6 +1,6 @@
 const JWT = require('jsonwebtoken');
 const validator = require('validator');
-const config = require('../data/private/config.json');
+const config = require('../config');
 
 const secret = config.SECRET_STR;
 

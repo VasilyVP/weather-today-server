@@ -1,8 +1,7 @@
+const { debugConnection } = require('../utils/utils');
 const MongoClient = require('mongodb').MongoClient;
-const config = require('../data/private/config.json');
+const config = require('../config');
 
-const url = config.MDB_URL;
-const dbName = config.DB_NAME;
 
 const options = {
     useUnifiedTopology: true
@@ -10,11 +9,13 @@ const options = {
 
 module.exports = () => {
     return new Promise((resolve, reject) => {
-        new MongoClient(url, options).connect()
+        new MongoClient(config.MDB_URL, options).connect()
             .then(client => {
+                debugConnection('MongoDB connected to ', config.MDB_NAME);
+
                 resolve({
                     client: client,
-                    db: client.db(dbName)
+                    db: client.db(config.MDB_NAME)
                 })
             })
             .catch(err => reject(err));

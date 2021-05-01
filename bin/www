@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('server:server');
+const app = require('../app');
+const { debugConnection } = require('../utils/utils');
+
 var http = require('http');
 //const https = require('https');
 //const fs = require('fs');
@@ -96,5 +97,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debugConnection('Listening on ' + bind);
 }

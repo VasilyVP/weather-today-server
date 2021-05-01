@@ -1,10 +1,11 @@
 //var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const fs = require('fs');
-const cfg = require('./data/private/config.json');
+
+const cfg = require('./config.js');
 
 const authentication = require('./middleware/authentication').authentication;
 

@@ -1,0 +1,12 @@
+{
+    "env": {
+        "DEBUG": ["server:server", "Connection:"]
+    },
+    "watch": [
+        "./"
+    ],
+    "ignore": [
+        ".git",
+        "node_modules/**/node_modules"
+    ]
+}

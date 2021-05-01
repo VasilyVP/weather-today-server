@@ -1,7 +1,7 @@
 const unirest = require('unirest');
 const GeoAPI = require('ip-geolocation-api-javascript-sdk');
 const GeolocationParams = require('ip-geolocation-api-javascript-sdk/GeolocationParams.js');
-const config = require('../data/private/config.json');
+const config = require('../config');
 
 class Weather {
     static async getWeather(ip) {
